@@ -14,6 +14,8 @@ public class Main {
         long bestSoaTime = 1 << 30;
         long soaCount = 0;
 
+        System.out.println("Layout\tDuration (ns)\tCount");
+
         for (int j = 0; j < benchmarkIterations; ++j) {
             long startTime = System.nanoTime();
             for (int id : checkIds) {
@@ -28,7 +30,6 @@ public class Main {
             }
         }
 
-        System.out.println("Layout\tDuration (ns)\tCount");
         System.out.println("aos\t" + bestAosTime + "\t" + aosCount);
 
         for (int j = 0; j < benchmarkIterations; ++j) {

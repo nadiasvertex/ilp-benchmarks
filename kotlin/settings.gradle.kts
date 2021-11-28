@@ -1,0 +1,3 @@
+
+rootProject.name = "soa-benchmark"
+
