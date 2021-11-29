@@ -34,9 +34,13 @@ struct aos {
         std::random_device r;
         std::default_random_engine e1(r());
         std::uniform_int_distribution<int> uniform_dist(1, size);
+        std::vector<int> lids(size);
         std::vector<int> rids(size);
+        transform(begin(items), end(items), begin(lids),[](const auto&item) {
+           return item.id;
+        });
         for(auto i=0; i<size; ++i) {
-            rids[i] = uniform_dist(e1);
+            rids[i] = lids[uniform_dist(e1)];
         }
         return rids;
     }
