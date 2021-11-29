@@ -64,20 +64,19 @@ struct soa {
     }
 
     [[nodiscard]] bool selected(int id) const {
-        for(auto i=0; i< ids_.size(); i++) {
-            if(ids_[i]==id) {
-                return selected_[i];
-            }
+        auto pos = std::find(begin(ids_), end(ids_), id);
+        if (pos==end(ids_)) {
+            return false;
         }
-        return false;
+        return selected_[pos - begin(ids_)];
     }
 
     std::vector<int> ids_;
     std::vector<bool> selected_;
 };
 
-struct mor{
-    explicit mor(const aos &src) : ids_(src.size) {
+struct mos{
+    explicit mos(const aos &src) : ids_(src.size) {
         for (const auto& item:src.items) {
             ids_.emplace(item.id, item);
         }
@@ -98,13 +97,13 @@ int main() {
     using namespace std::chrono_literals;
     aos aos_o(300);
     soa soa_o(aos_o);
-    mor mor_o(aos_o);
+    mos mos_o(aos_o);
 
     int benchmark_iterations = 100000;
 
     auto item_ids = aos_o.random_ids();
-    std::chrono::nanoseconds soa_best_duration = 24h, aos_best_duration = 24h, mor_best_duration=24h;
-    std::uint64_t soa_count=0, aos_count=0, mor_count=0;
+    std::chrono::nanoseconds soa_best_duration = 24h, aos_best_duration = 24h, mos_best_duration=24h;
+    std::uint64_t soa_count=0, aos_count=0, mos_count=0;
 
     std::cout << "Layout\tDuration (ns)\tCount\n";
 
@@ -143,17 +142,17 @@ int main() {
     for(auto j=0; j<benchmark_iterations; ++j) {
         auto start_time = std::chrono::steady_clock::now();
         for(auto id : item_ids) {
-            if (mor_o.selected(id)) {
-                ++mor_count;
+            if (mos_o.selected(id)) {
+                ++mos_count;
             }
         }
         auto end_time = std::chrono::steady_clock::now();
         auto duration = end_time - start_time;
-        if (duration < mor_best_duration) {
-            mor_best_duration = duration;
+        if (duration < mos_best_duration) {
+            mos_best_duration = duration;
         }
     }
 
-    std::cout << "mor\t" << mor_best_duration.count() << "\t" << mor_count << "\n";
+    std::cout << "mos\t" << mos_best_duration.count() << "\t" << mos_count << "\n";
     return 0;
 }

@@ -1,12 +1,10 @@
 package dev.csn;
 
-import java.util.Random;
-
 public class Soa {
     public int[] ids;
     public boolean[] selected;
 
-    Soa(Aos src) {
+    Soa(Aor src) {
         ids = new int[src.items.size()];
         selected = new boolean[src.items.size()];
 

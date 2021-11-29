@@ -1,13 +1,13 @@
-class Soa(aos: Aos) {
+class Soa(aor: Aor) {
     val ids: Array<Int>
     val selectedItems: Array<Boolean>
 
     init {
-        ids = Array(aos.size) { i ->
-            aos.items[i].id
+        ids = Array(aor.size) { i ->
+            aor.items[i].id
         }
-        selectedItems = Array(aos.size) { i ->
-            aos.items[i].selected
+        selectedItems = Array(aor.size) { i ->
+            aor.items[i].selected
         }
     }
 

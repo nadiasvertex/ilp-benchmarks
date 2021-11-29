@@ -2,4 +2,8 @@
 .gradle
 cmake-*
 *.class
+kotlin/build
+kotlin/gradle
+cs/soa-benchmark/soa-benchmark/bin
+cs/soa-benchmark/soa-benchmark/obj
 

@@ -9,7 +9,7 @@ long NanoTime(long ticks)
     return (long) (1000000000.0 * (double) ticks / Stopwatch.Frequency);
 }
 
-var aor = new Aor(50);
+var aor = new Aor(300);
 var soa = new Soa(aor);
 var mor = new Mor(aor);
 const int benchmarkIterations = 100000;

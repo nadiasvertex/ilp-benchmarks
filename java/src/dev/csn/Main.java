@@ -3,34 +3,37 @@ package dev.csn;
 public class Main {
 
     public static void main(String[] args) {
-        var aos = new Aos(300);
-        var soa = new Soa(aos);
+        var aor = new Aor(300);
+        var soa = new Soa(aor);
+        var mor = new Mor(aor);
 
         int benchmarkIterations = 100000;
 
-        var checkIds = aos.randomIds();
-        long bestAosTime = 1 << 30;
+        var checkIds = aor.randomIds();
+        long bestAorTime = 1 << 30;
         long aosCount = 0;
         long bestSoaTime = 1 << 30;
         long soaCount = 0;
+        long bestMorTime = 1 << 30;
+        long morCount = 0;
 
         System.out.println("Layout\tDuration (ns)\tCount");
 
         for (int j = 0; j < benchmarkIterations; ++j) {
             long startTime = System.nanoTime();
             for (int id : checkIds) {
-                if (aos.selected(id)) {
+                if (aor.selected(id)) {
                     aosCount++;
                 }
             }
             long endTime = System.nanoTime();
             long duration = endTime - startTime;
-            if (duration < bestAosTime) {
-                bestAosTime = duration;
+            if (duration < bestAorTime) {
+                bestAorTime = duration;
             }
         }
 
-        System.out.println("aos\t" + bestAosTime + "\t" + aosCount);
+        System.out.println("aor\t" + bestAorTime + "\t" + aosCount);
 
         for (int j = 0; j < benchmarkIterations; ++j) {
             long startTime = System.nanoTime();
@@ -47,6 +50,22 @@ public class Main {
         }
 
         System.out.println("soa\t" + bestSoaTime + "\t" + soaCount);
+
+        for (int j = 0; j < benchmarkIterations; ++j) {
+            long startTime = System.nanoTime();
+            for (int id : checkIds) {
+                if (mor.selected(id)) {
+                    morCount++;
+                }
+            }
+            long endTime = System.nanoTime();
+            long duration = endTime - startTime;
+            if (duration < bestMorTime) {
+                bestMorTime = duration;
+            }
+        }
+
+        System.out.println("mor\t" + bestMorTime + "\t" + morCount);
     }
 
 }

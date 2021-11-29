@@ -1,6 +1,6 @@
 import kotlin.random.Random
 
-class Aos(size_: Int) {
+class Aor(size_: Int) {
     val size: Int
     var items: ArrayList<ListItem>
 

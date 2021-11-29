@@ -3,11 +3,11 @@ package dev.csn;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class Aos {
+public class Aor {
     public ArrayList<ListItem> items;
     public int size;
 
-    Aos(int size) {
+    Aor(int size) {
         items = new ArrayList<>(size);
         this.size = size;
         fill(size);
