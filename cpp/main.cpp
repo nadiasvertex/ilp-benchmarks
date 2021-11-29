@@ -3,10 +3,13 @@
 #include <chrono>
 #include <iostream>
 #include <random>
+#include <unordered_map>
 
 struct list_item {
     int id;
     bool selected;
+    std::string title;
+    std::string url;
 };
 
 struct aos {
@@ -21,6 +24,8 @@ struct aos {
         std::transform(begin(items), end(items), begin(items), [&uniform_dist, &e1](auto &item) {
             item.id = uniform_dist(e1);
             item.selected = (uniform_dist(e1) % 10) > 5;
+            item.title = "Item " + std::to_string(item.id);
+            item.url = "http://item.dev/"+std::to_string(item.id);
             return item;
         });
     }
@@ -71,16 +76,35 @@ struct soa {
     std::vector<bool> selected_;
 };
 
+struct mor{
+    explicit mor(const aos &src) : ids_(src.size) {
+        for (const auto& item:src.items) {
+            ids_.emplace(item.id, item);
+        }
+    }
+
+    [[nodiscard]] bool selected(int id) const {
+        auto pos = ids_.find(id);
+        if (pos==end(ids_)) {
+            return false;
+        }
+        return pos->second.selected;
+    }
+
+    std::unordered_map<int, list_item> ids_;
+};
+
 int main() {
     using namespace std::chrono_literals;
     aos aos_o(300);
     soa soa_o(aos_o);
+    mor mor_o(aos_o);
 
     int benchmark_iterations = 100000;
 
     auto item_ids = aos_o.random_ids();
-    std::chrono::nanoseconds soa_best_duration = 24h, aos_best_duration = 24h;
-    std::uint64_t soa_count=0, aos_count=0;
+    std::chrono::nanoseconds soa_best_duration = 24h, aos_best_duration = 24h, mor_best_duration=24h;
+    std::uint64_t soa_count=0, aos_count=0, mor_count=0;
 
     std::cout << "Layout\tDuration (ns)\tCount\n";
 
@@ -116,5 +140,20 @@ int main() {
 
     std::cout << "soa\t" << soa_best_duration.count() << "\t" << soa_count << "\n";
 
+    for(auto j=0; j<benchmark_iterations; ++j) {
+        auto start_time = std::chrono::steady_clock::now();
+        for(auto id : item_ids) {
+            if (mor_o.selected(id)) {
+                ++mor_count;
+            }
+        }
+        auto end_time = std::chrono::steady_clock::now();
+        auto duration = end_time - start_time;
+        if (duration < mor_best_duration) {
+            mor_best_duration = duration;
+        }
+    }
+
+    std::cout << "mor\t" << mor_best_duration.count() << "\t" << mor_count << "\n";
     return 0;
 }
