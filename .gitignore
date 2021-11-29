@@ -6,4 +6,7 @@ kotlin/build
 kotlin/gradle
 cs/soa-benchmark/soa-benchmark/bin
 cs/soa-benchmark/soa-benchmark/obj
-
+scala/target
+scala/project/target
+scala/project/project/target
+.bsp
