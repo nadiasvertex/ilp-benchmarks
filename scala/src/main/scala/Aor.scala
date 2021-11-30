@@ -15,15 +15,11 @@ class Aor(size: Int) {
     }
   }
 
-  def randomIds(): Vector[Int] = {
+  def randomIds(): Array[Int] = {
     val r = scala.util.Random
-    val lids = items.map(_.id).toVector
-    val rids = ArrayBuffer[Int]()
-
-    for (_ <- 0 to size) do
-      rids += lids(r.nextInt(size))
-
-    return Vector.from(rids)
+    val lids = items.map(_.id).toArray
+    val indexes = for _ <- 0 to size yield r.nextInt(size)
+    return indexes.map(lids(_)).toArray
   }
 
   def selected(id: Int): Boolean =

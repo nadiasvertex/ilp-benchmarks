@@ -20,4 +20,12 @@ single fastest iteration.
 | C#     | aor  | 48768       |  
 | C#     | soa  | 23430       |
 | C#     | mor  | 2783        |
+| Scala  | aor  | 249329      |
+| Scala  | soa  | 100502      | 
+| Scala  | mor  | 7473        |
+| Go     | aos  | 24331       |
+| Go     | soa  | 20260       |
+| Go     | mor  | 3245        |
+
+ 
 
